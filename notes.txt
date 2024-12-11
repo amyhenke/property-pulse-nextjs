@@ -1,0 +1,325 @@
+Next.js
+- react framework for building full stack web applications
+- its a framework within a framework - a specific environment for creating react applications
+- offers really nice features like file based routing, image optimisation, better SEO, API routes - full stack framework
+- can create SSR (server side rendering apps)
+- traditionally tools like create react app or vite with react plugin are used to create SPAs (single page applications). In those setups, all the react code that have is bundled and sent to the client side. Whereas, next.js extends the capabilities of react by offering server side rendering and SSG (static site generation)
+- this is all right out of the box - allows to build more robust and scalable web applications
+
+DIFFERENT TYPES OF WEBSITES:
+4 TYPES:
+
+PURE STATIC WEBSITES:
+- first learning - create html and css file, then open it in browser. simplest form of a website.
+- physical html, css and js files are sent directly from the server to the client and displayed in the browser.
+- upsides include fast load times (as no server side processing needed on each request) and good SEO (as content is directly present in HTML so can crawl the file/content)
+- disadvantages - limited interactivity, can add some basic JS for interactive functions but complex features can be really challenging. Also a maintance challenge as scaling to a large project (100 pages +), have to actually have a 100 html pages. Should move beyond that if need more than a simple landing page or 4/5 page website.
+
+Steps:
+- server sends static resources
+- browser shows HTML page and lunks CSS/JS
+
+----------------
+
+SINGLE PAGE APPLICATIONS (SPAs):
+- entire app is client-side JS
+- JS can enhance interactivity - AJAX, fetch API, updating content without reloading the page. Frameworks like react took that and ran with it. They added the virtual DOM so can easily build single page apps (within a single HTML file loading in the browser).
+- content is dynamically loaded via client-side JS
+
+NOTE:
+Traditionally, react uses something called the Virtual DOM (document object model) under the hood.
+- Virtual DOM is a lightweight copy of the actual DOM - when state of a component changes, the virtual DOM changes first and then React compares the 2 (virtual DOM and actual DOM) and it will update the parts that need to be updated.
+- This is how React 18 and all versions before worked. However, 19 is changing it - will have a compiler that will replace the virtual DOM making things faster and automate some of the tedious tasks - making it easier to work with React overall.
+
+CONTINUE SPAs:
+- advantages - really interactive user experience, seamless. without having to reload the page. Efficient updates - only parts of the page are rerendered which improves performance
+- disadvantages - slower initial load time, as browser needs to download and execute all the JS which can potentially delay the page load. Also SEO challenges as the content is reliant on JS for rendering, rather than being sent by the server
+
+Steps: 
+- page loads and request static assets from server
+- frontend framework renders layout and JS executed
+- JS loads the data on the page
+- user interacts. page updates without reloading
+
+----------------
+
+SERVER-SIDE RENDERING (SSR):
+- combines initial benefits of static websites with the interactivity of SPAs.
+- when user visits a URL, the server generates the HTML and CSS like a static website, but then enhances it for interactivity and dynamic updates
+- advantages - fast initial load times as user sees content quickly because the server sends prerendered HTML. The content is therefore also accessible to search engines as it is present in the HTML response. 
+- disadvantages - implementing SSR can be more challenging than SPAs in some cases due to server-side rendering requirements. Also increased server load especially under high traffic.
+
+Steps:
+- server sends HTML to browser
+- browser renders page and download JS
+- execute react/JS
+- page is now interactive
+
+----------------
+
+STATIC SITE GENERATORS (SSG):
+- Next.js can also be used in this way
+- pre-generates all HTML and CSS at build time. removes the need for server-side rendering on each request.
+- the approach offers the fastest possible website (blazing fast!) but it requires rebuilding and redeploying the site to update the content
+- advantages - very fast, sites load instantly as all the content is prerendered. also good security - reduced attack surface as there is no server side code running per request
+- disadvantages - changes require rebuilding/redeploying the entire site, which may be cumbersome for frequent updates
+- really good for personal blogs, where have 1 new post per day or every couple of days. It's not good for something like real estate website where have users that sign up and can add content / records to the DB by the minute/second etc. as otherwise wont see the changes until rebuild it.
+- in Next.js can choose which approach you'd like (SSR or SSG) and can also mix and match. In this project we will have some pages that are server rendered and some that are statically generated. 
+
+Steps:
+- build takes code, content and data
+- SSG builds static pages with content
+- hosting on CDNs without server runtime
+- static pasges sent to browser & user interacts
+
+----------------------------------------------------------------
+
+NEXT.JS FEATURES:
+- File-Based Routing - in SPAs have to install react router, and anytime want a new route you have to create that in your code in your router. whereas, with next.js you follow a simple naming convention and create a component for e.g. the about page and it works. /about shows up (depending on how named files). great feature - one of the best about SSR in brad's opinion
+- React Server Components - traditionally, components rendered on the client, but now they can render on the server. Great for SEO, fast load times and allows to use data/code that shouldn't use on the client such as API keys and other env variables that should be kept private. Don't want to have those in client components as people can access it through the browser.
+- Data Fetching - can fetch data through a React Server Component and not have to use a useEffect hook. The page just laods with the data already there, rather than loading in a client component and then fetching the data using useEffect() and having to show a spinner etc. Improves the performance and simplifies your code as don't need to use hooks. 
+- Server Actions - Asynchronous functions that are executed on the server and they can be used in client components as well. We will use these a lot in this project. Can also use these with forms - traditionally with SPAs, have to use an onClick handler to submit forms but now can actually have an action attribute, like would with PHP. A lot of this is going back to how things used to be, with rendering on the server but also adding all the interactivity with the components etc. Really powerful
+- API Routes - can create to make CRUD requests using HTTP methods such as GET, POST, PUT, DELETE requests. Like would do with express, laravel or django when creating backend and making endpoints. Can do this right from within next.js application. 
+- Environment Variables - allows devs to configure different settings for development, staging, production environments. Can have things like API keys and DB connection strings here. 
+- Customisable Meta/SEO - since pages are rendered on the server, we can easily add meta tags to the head just by exporting a metadata object with keywords, description etc.
+- Image Optimisation - Next.js offers an Image component that we use instead of standard image tag. It optimises images and utilises things like lazy loading.
+- Automatic Code Splitting - next.js only loads the JS and CSS files that are required for that particular page. Gives users a much faster experience with a nearly instant page load
+- Typescript support - built in, providing static typing and improved dev tooling for type safety. Not using in the project - but can use it easily by changing the files names to .ts or .tsx.
+- CSS Support - built in support for things like CSS and JS libraries like 'styled components' or 'emotion' etc. We'll be using tailwind - very easy to integrate.
+- Fast Refresh - feature that enables instant feedback on code changes during development without losing any component state. 
+
+These are just some of the notable features.
+Another advantage is deployment - use service like vercel (that created next.js). they have a great hosting service. can easily push code from github (and the like) directly to vercel and it will handle it all for you. netlify is also a great service. Easy to deploy - especially if comparing to a MERN full-stack application.
+
+----------------------------------------------------------------
+
+NOTES DURING BUILD:
+
+**** I was initally using REACT 19 but Traversy's project was 18, ended up downgrading as some packages couldn't resolve the dependency tree. --force is risky as can cause hard to debug errors ****
+
+
+- all pages are components and they are all rendered on the server by default. Then the HTML and CSS etc is sent to the client.
+- can override this by changing them to client components.
+
+- adding metadata object above page component - added to page source. since the page is rendered on the server (and not the client, like in a SPA), search engines can crawl this and see the metadata easily.
+
+file-based routing:
+- create a directory with name of route, then add a page.jsx/js/tsx/ts to create the route page.
+- can also add another directory within that to create e.g. dashboard/settings
+- prior to next.js 13, there was a 'pages' folder instead of 'app'.
+- when used CLI it asked if want to use the app router (what doing) or the legacy pages folder. use app from now on!
+- in this older format, used to name the file the name of the route - properties.jsx but now just name it page.jsx within the named directory
+- to add a dynamic route - such as ID create a folder called [id] and add page.jsx inside it. 
+- if want to make it a catch all, so it shows no matter what i put after the id such as if ./properties/100/hi. by default would show 404. but if rename the directory to [...id] then it becomes a catch all.
+
+- next.js comes with a Link component that uses client side rendering, is really fast as doesn't reload the whole page like an a tag does. similar to what did with vite - react link componet, but that uses a to attribute, whereas in next.js you still use an href.
+3 ways:
+- <Link href='/properties'>Go to Properties</Link>
+- <Link href='/properties?name=test'>Go to Properties</Link>
+- <Link href={{
+            pathname: 'properties',
+            query: {
+                name: 'test'
+            }
+        }}>Go to Properties</Link>
+
+last 2 do the same thing.
+
+CLIENT vs SERVER:
+Traditionally, when building a react app all components and code are client side. But with next.js, because its an SSR framework the components are rendered on the server by default.
+
+Server components:
+- reduce complexity - especially for data fetching as don't need a useEffect() hook and add dependencies. Simply make a request and use the data in the response.
+- direct access to ORM - can use mongoose, prisma, sequalize etc. - can interact with DB right from within server component
+- better SEO
+- secret values not exposed
+
+Client components:
+- more interactive - if want to use events or react hooks, needs to be a client component.
+- use react hooks - cannot use them in server components at all.
+
+By default, in next.js a component is a SERVER component. To make a component client-side - add to the top of the file:
+    'use client';
+
+- can nest client components within server components.
+
+NETWORK BOUNDARY
+- has a boundary between server and client side components
+- you can choose where the boundary is in component tree
+
+layout
+|
+page
+|
+posts
+|
+~likebutton~
+
+- all the above are server components other than the like button. 
+- posts is server component and can interact with DB using ORM to fetch the posts
+- but the like button is interactive, where have events so when click on it it rerenders and shows the number. to achieve that, has to be client side
+
+    nav
+  |       |
+logo    links
+
+- can have a nav component thats rendered on the server and shared across pages, but if want to show an active state on the links, then can render the list of links on the client. 
+- so can embed client components WITHIN server components
+
+WHEN TO USE WHICH:
+refer to https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns for table that shows when. 
+- basically anything that is sensitive or data fetching, use server. anything that is interactive or using hooks, use client.
+
+- if console.log within a component - if it is a server side component it will show the console log in the terminal in VSC. If its a client component, it will show in the browser console.
+- actually does show in the browser terminal now - but has a 'server' label
+- the console still shows in the terminal in VSC if its a client component
+
+import { useRouter } from "next/navigation";
+- used to be from "next/router" but after next 14, it changed
+
+const router = useRouter()
+console.log(router)
+
+- this object has a bunch of different methods - such as replace method which replaces the current page with the new one (passed in), refresh refreshes the current page, push add the page to the stack, back goes previous page, prefetch which prefetches a page, fastRefresh which refreshes the current page and keeps the state etc.
+usage:
+<button onClick={() => router.replace('/')}>Go Home</button>
+- this replaces the current page with the home page.
+
+GET PARAMS IN CLIENT COMPONENT:
+import { useParams } from "next/navigation";
+
+const params = useParams()
+return ( <div>Property Page { params.id } </div> );
+- if at /properties/100 - shows Property Page 100
+- if at /properties/97 - shows Property Page 97
+
+- the variable is called id as we named the directory [id]. if called the directory [slug], we would use {params.slug} to access it
+
+GET SEARCH PARAMS IN CC:
+http://localhost:3000/properties/100?name=amy
+- access the name:
+const searchParams = useSearchParams()
+return ( <div>Property Page { searchParams.get('name') }</div> );
+
+GET PATHNAME IN CC:
+const pathname = usePathname()
+return ( <div>Property Page {pathname} </div> );
+- returns what is after the domain: /properties/100
+- at http://localhost:3000/properties/100?name=amy, don't get any search params, just /properties/100
+
+GET PARAMS IN SERVER COMPONENT:
+const PropertyPage = ({ params }) => {
+    return ( <div>Property Page {params.id} </div> );
+}
+- but warning:  Error: Route "/properties/[id]" used `params.id`. `params` should be awaited before using its properties. Brad isn't getting this warning, clearly new that points that out
+
+GET SEARCH PARAMS IN SC:
+const PropertyPage = ({ searchParams }) => {
+    return ( <div>Property Page {searchParams.name} </div> );
+}
+- don't need to use the get() method to access it from a server component.
+
+
+----------------------------------------------------------------
+CREATING NAV BAR:
+
+MOBILE NAV STATE:
+const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+then on the hamburger button: 
+onClick={() => setIsMobileMenuOpen((prevState) => !prevState)}
+- change the state to the opposite of whatever it is - if its true, set to false (so toggles).
+- can pass into it an array function and get the previous state, then set it to the opposite of the previous state
+
+----------------------------------------------------------------
+BUILT-IN FILE BASED ROUTER
+- nice feature - if add a page called not-found.jsx or loading.jsx within the app directory, it will look for that any time on a non existant route or anything time still loading any data
+
+----------------------------------------------------------------
+- we have some properites showing on our website from our properites.json file, but we want to store our data in a database.
+- mongodb - no SQL document database, stores data in json like documents
+- very popular for node.js/JS applications
+- we'll be using the cloud service - atlas. can have a seperate production DB so can keep seperate to dev DB data
+
+- in next video we're going to create a database connection file so when need to use the DB we can import that file and run a specific function called connectDB() (or whatever want to call it) and then we can work with our data/make queries
+- doing with by installing mongodb and mongoose packages - npm i mongodb mongoose
+- mongoose is our ORM alternative - Object Data Modeler (ODM)
+- allows us to create models for our collections - such as users model, properties model. Then there will be a bunch of methods we can use to find/update/delete etc the data
+- before can create these models, we need a way to connect to our DB
+
+- any time want to use the DB, we bring in our database.js file. 
+- we can test it on the homepage as its a SERVER component. 
+- any server component, any server action, any API routes can use the DB - as they are on the server
+
+CREATING MODELS:
+- with mongoose - with whatever fields we want in those collections (tables)
+- starting with user and properties tables
+
+- in root directory, created a models directory with a User.js file.
+
+- fetching data like this is where Next.js really shines - in a react SPA would need to create some kind of backend and API route with express or something like it. then in the page.jsx would need to use a useEffect() to fetch the data from the API.
+- but with Next.js we can simply connect to the database and make a query right from the component - then the data is loaded WITH the page
+
+----------------------------------------------------------------
+
+In first iteration of this course, they created API routes for everything - CRUD. Instead of fetching data through server side components or through actions, they set up /api/properties where could make GET, POST etc requests to it.
+
+- this is still a valid way to do this - but not the best way if making a single app
+- if want to have all routes/services accessible outside of the next.js app as well then its better to set up the API routes. but for this project, best to use server components and actions.
+- e.g. if building a mobile app with react native, and wanted to use the same routes to get and post to that database then API routes would be a good choice
+
+- for creating API routes, its very similar to creating pages with file based routing.
+- create directories: /api/properties and then add file called route.js inside it
+- then create handlers for different HTTP method requests within that file
+
+Once created API routes, if want to use them from within page components would need to make it a client component "use client" - so can use hooks (useEffect() to fetch the data when the component mounts) 
+
+----------------------------------------------------------------
+
+NEXT AUTH:
+- authentication using next auth - open source solution for next apps
+- easy to setup and supports a ton of authentication providers
+- we are using google - also include facebook and github
+- can also use a standard username/password login but he suggests using something like google
+- will cover security of next auth and using providers in this section
+
+HOW IT WORKS:
+1. serverless function for authentication - it uses API routes often implemented as serverless functions to authentication related operations such as signing in and out and session management. so we will be creating API routes but will be passing it off to next auth.
+2. create a session - next auth creates a session for that user including info such as users identity and authentication state. signed with a secret key to ensure integrity and prevent tampering
+3. store session - session data is stored in a cookie on client side, that cookie is sent with each HTTP request to the server
+4. verify session - on subsequent requests the server checks the cookie to verify the session by validating the session signature using a secret key. if its valid, the server processes the request as authenticated
+5. access protect routes - client sends cookie with every request so we gain access to any protected routes. next auth uses middleware/API routes to use that session data from the cookie to determine if the user is authorised to access that requested resource. 
+
+e.g. going to have a page where can create a new property listing - it will be protected (only accessible if you're logged in)
+
+PROVIDERS:
+- google
+- facebook 
+- twitter
+- github
+- discord
+- slack
+- dropbox
+- Auth0
+- netlify
+- okta
+- reddit
+- salesforce
+- todoist
+- spotify
+- twitch
+- zoom ETC.
+
+OAuth is an open standard for access delegation - this is what allows a user to grant a 3rd party website/app to access their info without sharing their actual credentials (username/password)
+- so can't see their actual google password even though they signed up with it
+- so SECURE BY DEFAULT - promotes use of passwordless sign-in mechanisms
+- encourages best practices for safeguarding user data
+- uses Cross-Site request Forgery Tokens on POST routes (sign in, sign out)
+- default cookie policy - aims for most restrictive policy
+- when JSON Web Tokens are enabled, they are encrypted by default
+- auto-generates symmetric signing and encryption keys for dev convenience
+- features tab/window syncing and keepalive messages to support short lived sessions
+- attempts to implement the latest guidance - published by open web app security project
+
+Using something like next auth with providers is MORE SECURE than trying to implement authentication yourself - its a complete solution, fully tested and used by many big companies
+- these days would be very few cases where brad would create a completely custom authentication solution over using something like next auth. more secure and much easier to implement

@@ -1,4 +1,6 @@
 import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
+import AuthProvider from '@/components/AuthProvider';
 import '@/assets/styles/globals.css'
 
 export const metadata = {
@@ -8,14 +10,19 @@ export const metadata = {
 }
 
 const MainLayout = ({ children }) => {
-    return ( <html>
-        <body>
-            <NavBar />
-            <main>
-                {children}
-            </main>
-        </body>
-    </html> );
+    return ( 
+        <AuthProvider>
+            <html>
+                <body>
+                    <NavBar />
+                    <main>
+                        {children}
+                    </main>
+                    <Footer />
+                </body>
+            </html> 
+        </AuthProvider>       
+    );
 }
  
 export default MainLayout;
