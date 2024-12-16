@@ -323,3 +323,45 @@ OAuth is an open standard for access delegation - this is what allows a user to 
 
 Using something like next auth with providers is MORE SECURE than trying to implement authentication yourself - its a complete solution, fully tested and used by many big companies
 - these days would be very few cases where brad would create a completely custom authentication solution over using something like next auth. more secure and much easier to implement
+
+PROTECTED ROUTES:
+- With NextAuth.js 4.2.0 and Next.js 12, you can now protect your pages via the middleware pattern more easily. If you would like to protect all pages, you can create a middleware.js file at the root or in the src directory (same level as your pages) which looks like this:
+
+        export { default } from "next-auth/middleware"
+
+- If you only want to secure certain pages, export a config object with a matcher:
+
+        export { default } from "next-auth/middleware"
+
+        export const config = { matcher: ["/dashboard(.*)"] }
+
+https://next-auth.js.org/tutorials/securing-pages-and-api-routes
+
+SERVER ACTIONS:
+- recent addition to next.js
+- allow us to run server side functions in our next app
+- already used server components (which are components that render on the server), but server actions are functions that run on the server
+- we can submit forms directly to an action using the action attribute (like in php, set action to contact.php or whatever it might be - instead of using an onClick handler like would do if using a client side component)
+- actions can also be run within a client component. they are very flexible and can be used in different ways.
+- not limited to action with forms - can be invoked from form event handlers and useEffect hooks
+
+- briefly covered API routes which are a vital part of next.js - can be used to execute server side code. In first version of this course, all the CRUD properties were edited with API routes. This is a good infrastructure if you need your API routes to be exposed for other projects, but if building a single app like we are then actions are a much more efficient and easier way to implement this.
+- can run these functions directly in our next.js app, don't need to worry about setting up API routes and making extra HTTP requests.
+
+- to use server actions: https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations
+- need to create an async function, add "use server" within the function (can be done in both client and server components, refer to docs as slightly different for each).
+
+Differences from for...in:
+for...of iterates over values of an iterable.
+for...in iterates over keys (or property names) of an object or array.
+Example:
+
+    const arr = ['a', 'b', 'c'];
+
+    for (const value of arr) {
+        console.log(value); // Logs: 'a', 'b', 'c'
+    }
+
+    for (const key in arr) {
+        console.log(key); // Logs: '0', '1', '2'
+    }
