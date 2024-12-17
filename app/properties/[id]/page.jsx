@@ -5,6 +5,7 @@ import PropertyDetails from "@/components/PropertyDetails";
 import PropertyImages from "@/components/PropertyImages";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
+import { convertToSerializeableObject } from "@/utils/convertToObject";
 
 const PropertyPage = async ({ params }) => {
     await connectDB()
@@ -14,7 +15,12 @@ const PropertyPage = async ({ params }) => {
     const URLparams = await params
     
     // findById built in with mongoose
-    const property = await Property.findById(URLparams.id).lean()
+    const propertyDoc = await Property.findById(URLparams.id).lean()
+    const property = convertToSerializeableObject(propertyDoc)
+
+    if (!property) {
+        return (<h1 className="text-center text-2xl font-bold mt-10">Property Not Found</h1>)
+    }
 
     return (
         <>
