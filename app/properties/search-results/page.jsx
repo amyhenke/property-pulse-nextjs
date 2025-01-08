@@ -24,7 +24,7 @@ const SearchResultsPage = async ({ searchParams: { location, propertyType } }) =
 
     const propertiesQueryResults = await Property.find(query).lean()
     const properties = convertToSerializeableObject(propertiesQueryResults)
-    console.log(properties)
+    // console.log(properties)
 
     return (
         <>

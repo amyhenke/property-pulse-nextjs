@@ -16,7 +16,7 @@ const PropertySearchForm = () => {
             console.log("Nothing filled in!")
             router.push("/properties")
         } else {
-            console.log("Soemthing filled in!")
+            console.log("Something filled in!")
             const query = `?location=${location}&propertyType=${propertyType}`
             router.push(`/properties/search-results${query}`)
         }
